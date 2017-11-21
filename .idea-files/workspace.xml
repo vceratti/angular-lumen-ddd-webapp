@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/api/composer.json</pharConfigPath>
+    <executablePath>$PROJECT_DIR$/api/composer</executablePath>
+  </component>
+
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+
+
+  <component name="MessDetectorProjectConfiguration">
+    <option name="selectedConfigurationId" value="be2aba85-eab8-4258-9bf7-2c65e41c0a7d" />
+  </component>
+  <component name="PHPCodeSnifferProjectConfiguration">
+    <option name="selectedConfigurationId" value="be2aba85-eab8-4258-9bf7-2c65e41c0a7d" />
+  </component>
+  <component name="PhpServers">
+    <servers>
+      <server host="localhost" id="1d7dcb3c-fb0a-4759-9777-6fce057501ff" name="docker-apache-server" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$" remote-root="/opt/project" />
+        </path_mappings>
+      </server>
+    </servers>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="php-build">
+    <include_path>
+      <path value="$PROJECT_DIR$/api/vendor" />
+    </include_path>
+  </component>
+
+  <component name="RunManager" selected="PHP Web Application.php-debug">
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" path="" />
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner scope="XML" />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="PHP Web Application.php-debug" />
+      <item index="1" class="java.lang.String" itemvalue="PHPUnit.phpunit-tests" />
+    </list>
+  </component>
+</project>

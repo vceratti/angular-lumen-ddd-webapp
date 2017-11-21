@@ -3,12 +3,42 @@
 # include sh with functions to ask, check and install apt packages
 root="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+project_name=""
+
+function usage {
+    printf "
+Usage: new-project.sh <options>
+
+Possible parameters:
+--project-name=<project name used for docker compose images>
+
+"
+    exit 1
+}
+
+args="project-name:"
+
+OPTIONS=$(getopt -o a: --long ${args} -- "$@" 2> /dev/null)
+
+if [[ $? -ne 0 ]]
+then
+    usage
+fi
+
+eval set -- "$OPTIONS"
+
+while true ; do
+    case "$1" in
+        --project-name ) project_name="${2}"; shift 2;;
+        --  ) shift; break;;
+        * ) echo $1; usage;;
+    esac
+done
+
 branch="master"
 php="php"
 api_path="$root/api"
 git_token="5e2cd84c632e063ff21675e6c65387a9556236c1"
-
-project_name=""
 
 function error {
     print_l $1
@@ -32,7 +62,7 @@ function empty_str_cmd {
 
 function is_installed {
     app_name=$1
-
+dddsample-1.1.0
     isInstalled=`dpkg-query -s "$app_name" 2> /dev/null | grep -isE 'status: install ok'`
 
     if empty_str_cmd "$isInstalled"; then
@@ -80,33 +110,6 @@ function ask_and_install {
     fi
 }
 
-function checkout_build_repo {
-    echo " --- Checking out and installing into $api_path..."
-
-    rm -rf build
-    mkdir build
-    cd build
-    git init  &> /dev/null
-    git pull "https://$git_token@github.com/vceratti/php-build-tools.git" "$branch" &> /dev/null
-
-    cd "$root"
-}
-function install_php_build {
-    if should_run_command "Install php-build-tools?    This will checkout build files and install some tools (like Ant and Docker)"; then
-        checkout_build_repo
-
-        cd "build"
-        chmod +x install.sh
-        ./install.sh "$project_name"
-        cd "$root"
-        mv build "$api_path/build"
-        mv  docker-compose.yml "$api_path/docker-compose.yml"
-        mv  docker-php-build-up.sh "$api_path/docker-php-build-up.sh"
-        mv  php-build "$api_path/php-build"
-
-    fi
-}
-
 function start_lumen_api {
     if should_run_command "Run composer and start a Lumen project?"; then
         checkout_build_repo
@@ -139,11 +142,9 @@ function choose_env {
 }
 
 function clean {
-    printf ' --- Cleaning old files and api folder ((may ask root permission) ... '
-    sudo rm -rf git-hooks build .mysql &> /dev/null
-    sudo rm docker-up.sh docker-compose.yml php.sh &> /dev/null
+    printf ' --- Cleaning old files and api folder (may ask root permission) ... '
+
     sudo rm -rf "$api_path" &> /dev/null
-    sudo rm -rf build git-hooks &> /dev/null
 
     printf "Done!\n"
 }
@@ -163,18 +164,60 @@ function choose_project_name {
     printf "\n\tYour project name is: $project_name \n\n"
 }
 
+function make_git_hook {
+    if should_run_command "Install pre-commit git-hook?   This will link the defaul pre-commit to ./git-hooks/pre-commit, so you can run it and share them with your team. "; then
+        find ./git-hooks -name "*" -exec chmod +x {} \;
+
+        printf " -- Backing up old pre-commit hook\n"
+#        rm -rf ../git-hooks 2> /dev/null
+        cp -R ./.git/hooks ./.git/hooks.old 2> /dev/null
+
+        rm -f ./.git/hooks/pre-commit 2> /dev/null
+
+        printf " -- Linking <project_root>/.git/hooks/pre-commit to <project_root>/git-hooks/pre-commit\n"
+        ln -s -f ../../git-hooks/pre-commit ./.git/hooks/pre-commit
+
+        find ./.git/hooks/ -name "*" -exec chmod +x {} \;
+    fi
+}
+
+function idea_settings {
+    if should_run_command "Create .idea folders with ideal PHPStorm config?"; then
+        mv ./.idea/ ./.idea-backup
+        rm -Rf ./.idea/
+        mv ./.idea-files/ ./.idea/
+
+        mv ./.idea/project-name.iml "./.idea/${project_name}.iml"
+        sed -r --in-place "s/project\name/${project_name}/g;" ./.idea/modules.xml
+    fi
+}
+
+function fix_permissions {
+    cd api && docker-compose up -d
+    cd "${root}" && docker exec -it "${project_name}_build" chown -R `stat -c "%u:%g" .` .
+}
+
+function remove_git_folder {
+    if should_run_command "Delete .git folder?"; then
+        rm -R ./.git
+    fi
+}
+
+
 function main {
     printf "\n  ---- New Project Generator  ----- \n\n"
+
     clean
     make_api_folder
     choose_project_name
     check_install "git"
     choose_env
+#
+    start_lumen_api
+    make_git_hook
+    idea_settings
 
-    install_php_build
-#    start_lumen_api
-#    idea_settings
-
+    remove_git_folder
 }
 
 main
