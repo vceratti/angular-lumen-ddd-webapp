@@ -109,8 +109,8 @@ function make_git_hook {
 
 function idea_settings {
     if should_run_command "Create .idea folders with ideal PHPStorm config?"; then
-        mv ./.idea/ ./.idea-backup
-        rm -Rf ./.idea/
+        mv ./.idea/ ./.idea-backup &> /dev/null
+        rm -Rf ./.idea/ &> /dev/null
         mv ./.idea-files/ ./.idea/
 
         mv ./.idea/project-name.iml "./.idea/${project_name}.iml"
