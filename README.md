@@ -7,11 +7,8 @@ A project for quick starting an web APP using Angular 2 and a REST API made with
 # Work to do
 
 This is a work in progress. The next steps are:
-  
-- start a PHP Storm Project using predefined code style settings for PHP auto formatting and several validations. 
- including PHPCS for PSR-2 and PHPMD with many pre-defined rules for clean code. PHP build tools are checked out from this project which uses Docker images with all the tools used. 
 
-- start a Lumen Project project with a DDD scruture (@davi)
+- start a Lumen Project project with a DDD structure (@davi)
 
 - define rules, standards, build tools and more for JS (node, gulp, eslint, less/sass, bower, etc), plus the PHP Storm configs for integrations 
 
@@ -21,7 +18,21 @@ This is a work in progress. The next steps are:
 
 # Install
 
-  Run install.sh to: 
-- Create an api folder
-- Download build tools and runs another automated installer, which checks/install Ant and Docker and copy build toolds and docker-compose config into api folder
-- Optionally, makes a git-hook folder in your project and make the default commig git hook point into this new one (check?).  
+
+Clone this repository in your project folder and run the installer:
+
+ ```bash
+git clone https://github.com/vceratti/angular-lumen-ddd-webapp.git . &&
+chmod +x ./new-project.sh &&
+./new-project.sh
+ ``` 
+
+This installer will (may as for root permissions):
+
+- Clean (if existing) the api folder and create a new one
+- Ask for a project name, which will be used for docker containers, PHPStorm configs, etc...
+- Check if git is installed (duh =S )
+- Ask for environment options - 1 PHP 7.1 is preferable as 2 uses a deprecated container
+- Download build repository 
+
+- Optionally, makes a git-hook folder in your project and make the default commit git hook point into this new one (check?).  
