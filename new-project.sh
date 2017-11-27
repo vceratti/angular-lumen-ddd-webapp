@@ -156,7 +156,8 @@ function main {
     fix_permissions
     removeLib
 
-    log_exit "Project ${project_name} successfully created!"
+    log_title "Project ${project_name} successfully created!"
+    exit 0
 }
 
 main
