@@ -333,7 +333,7 @@
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
   <component name="PhpUnit">
     <phpunit_settings>
-      <phpunit_by_interpreter interpreter_id="b11095de-334c-4d42-ba46-25aa32db2e34" load_method="PHPUNIT_PHAR" bootstrap_file_path="/opt/project/api/src/bootstrap.php" configuration_file_path="/opt/project/api/build/assets/phpunit.xml" custom_loader_path="phpunit" phpunit_phar_path="/usr/local/bin/phpunit" use_bootstrap_file="true" use_configuration_file="true" />
+      <phpunit_by_interpreter interpreter_id="b11095de-334c-4d42-ba46-25aa32db2e34" load_method="PHPUNIT_PHAR" bootstrap_file_path="/opt/project/api/src/bootstrap.php" configuration_file_path="/opt/project/api/.build/assets/phpunit.xml" custom_loader_path="phpunit" phpunit_phar_path="/usr/local/bin/phpunit" use_bootstrap_file="true" use_configuration_file="true" />
       <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/api/vendor/autoload.php" />
     </phpunit_settings>
   </component>
