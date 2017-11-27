@@ -136,7 +136,7 @@ function fix_permissions {
 function remove_git_folder {
     if should_run_command "Delete .git folder?"; then
         cd "$root"
-        rm -R ./.git
+        rm -Rf ./.git
     fi
 }
 
